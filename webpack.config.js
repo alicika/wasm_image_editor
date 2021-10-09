@@ -1,14 +1,28 @@
-const CopyWebpackPlugin = require("copy-webpack-plugin");
-const path = require('path');
+const path = require("path");
+const CopyPlugin = require("copy-webpack-plugin");
+const WasmPackPlugin = require("@wasm-tool/wasm-pack-plugin");
+
+const dist = path.resolve(__dirname, "dist");
 
 module.exports = {
-  entry: "./bootstrap.js",
-  output: {
-    path: path.resolve(__dirname, "dist"),
-    filename: "bootstrap.js",
+  mode: "production",
+  entry: {
+    index: "./js/index.js"
   },
-  mode: "development",
+  output: {
+    path: dist,
+    filename: "[name].js"
+  },
+  devServer: {
+    contentBase: dist,
+  },
   plugins: [
-    new CopyWebpackPlugin(['index.html'])
-  ],
+    new CopyPlugin([
+      path.resolve(__dirname, "static")
+    ]),
+
+    new WasmPackPlugin({
+      crateDirectory: __dirname,
+    }),
+  ]
 };
