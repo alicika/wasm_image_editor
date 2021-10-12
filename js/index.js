@@ -1,3 +1,5 @@
+const cellSize = 50;
+
 function draw(image) {
     const canvas = document.getElementById("my-canvas");
     const context = canvas.getContext("2d");
@@ -8,7 +10,6 @@ function draw(image) {
 
     const width = image.width();
     const height = image.height();
-    const cellSize = 50;
 
     const cells = image.cells();
 
@@ -36,9 +37,21 @@ function draw(image) {
     }
 }
 
+function setupCanvas(image) {
+    const canvas = document.getElementById("my-canvas");
+    canvas.addEventListener("click", (event) => {
+        const rect = canvas.getBoundingClientRect();
+        let x = event.clientX - rect.left;
+        let y = event.clientY - rect.top;
+
+        x = Math.floor(x / cellSize);
+        y = Math.floor(y / cellSize);
+    })
+}
+
 async function main() {
     const lib = await import("../pkg/index.js").catch(console.error);
-    const image = new lib.Image(10, 10);
+    const image = lib.Image.new(10, 10);
     console.log(image);
     draw(image);
 }
