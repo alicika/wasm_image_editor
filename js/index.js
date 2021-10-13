@@ -49,11 +49,11 @@ function setupCanvas(image) {
     })
 }
 
-async function main() {
-    const lib = await import("../pkg/index.js").catch(console.error);
+function main() {
+    import('../pkg/').then((lib) => {
     const image = lib.Image.new(10, 10);
     console.log(image);
     draw(image);
-}
+})}
 
 main();
