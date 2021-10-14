@@ -50,5 +50,14 @@ impl Image {
             .flat_map(|&rgb| vec![rgb.r, rgb.g, rgb.b])
             .collect::<Vec<u8>>()
     }
+
+    pub fn brush(&mut self, x: usize, y: usize, color: &[u8; 3]) {
+        let index = (y * self.height) + x;
+        self.cells[index] = Rgb {
+            r: color[0],
+            g: color[1],
+            b: color[2],
+        }
+    }
 }
 

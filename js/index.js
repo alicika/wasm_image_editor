@@ -46,6 +46,9 @@ function setupCanvas(image) {
 
         x = Math.floor(x / cellSize);
         y = Math.floor(y / cellSize);
+
+        image.brush(x, y, [255, 255, 255]);
+        draw(image);
     })
 }
 
