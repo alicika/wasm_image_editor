@@ -28,7 +28,7 @@ impl Image {
     #[wasm_bindgen]
     pub fn new(width: usize, height: usize) -> Image {
         let mut cells = Vec::new();
-        cells.resize(width * height, Rgb{r: 200, g:200, b:255});
+        cells.resize(width * height, Rgb {r: 200, g:200, b:255 });
         Image {
             width,
             height,
@@ -47,7 +47,7 @@ impl Image {
     pub fn cells(&self) -> Vec<u8> {
         self.cells
             .iter()
-            .flat_map(|&rgb| vec![rgb.r, rgb.g, rgb.b])
+            .map(|&rgb| vec![rgb.r, rgb.g, rgb.b])
             .collect::<Vec<u8>>()
     }
 
