@@ -10,7 +10,7 @@ use wasm_bindgen::prelude::*;
 static ALLOC: wee_alloc::WeeAlloc = wee_alloc::WeeAlloc::INIT;
 
 #[derive(Clone, Copy)]
-struct Rgb {
+pub struct Rgb {
     r: u8,
     g: u8,
     b: u8,
@@ -23,12 +23,12 @@ pub struct Image {
     cells: Vec<Rgb>,
 }
 
-#[wasm_bindgen]
 impl Image {
+
     #[wasm_bindgen]
     pub fn new(width: usize, height: usize) -> Image {
         let mut cells = Vec::new();
-        cells.resize(width * height, Rgb {r: 200, g:200, b:255 });
+        cells.resize(width * height, Rgb { r: 200, g: 200, b: 255 });
         Image {
             width,
             height,
@@ -47,7 +47,7 @@ impl Image {
     pub fn cells(&self) -> Vec<u8> {
         self.cells
             .iter()
-            .map(|&rgb| vec![rgb.r, rgb.g, rgb.b])
+            .flat_map(|&rgb| vec![rgb.r, rgb.g, rgb.b])
             .collect::<Vec<u8>>()
     }
 
@@ -59,20 +59,4 @@ impl Image {
             b: color[2],
         }
     }
-
-    use std::fs::File;
-    use flate2::read::GzDecoder;
-    use tar::Archive;
-
-    pub fn untar() -> Result<(), std::io::Error> {
-        let path = "archive.tar.gz";
-
-        let tar_gz = File::open(path)?;
-        let tar = GzDecoder::new(tar_gz);
-        let mut archive = Archive::new(tar);
-        archive.unpack(".")?;
-
-        Ok(())
-    }
 }
-
